@@ -2,13 +2,13 @@ import express from 'express';
 import path from 'path';
 import { createServer } from 'http'; 
 import { PORT } from './config/constants.js';
-import setupWebSocket from './websocket/setupWebSocket.js';
+import WebSocketHandler from './websocket/webSockerHandler.js';
 
 const app = express();
 
 const server = createServer(app);
 
-setupWebSocket(server);
+new WebSocketHandler(server);
 
 app.use(express.static('dist'));
 
