@@ -1,20 +1,14 @@
-// server.js
-
 import express from 'express';
 import path from 'path';
 import { createServer } from 'http'; 
-import { WebSocketServer } from 'ws'; 
 import { PORT } from './config/constants.js';
+import setupWebSocket from './websocket/setupWebSocket.js';
 
 const app = express();
 
 const server = createServer(app);
 
-const wss = new WebSocketServer({ server });
-
-wss.on('connection', function connection(ws) {
-  console.log("WebSocket client connected"); 
-});
+setupWebSocket(server);
 
 app.use(express.static('dist'));
 
