@@ -14,7 +14,7 @@ export default class RoomManager{
      * @param {string} roomId 
      * @returns {Room}
      */
-    getRoom(roomId){
+    getRoomById(roomId){
         if(this.rooms.has(roomId)){
             return this.rooms.get(roomId);
         }
@@ -25,7 +25,7 @@ export default class RoomManager{
     }
 
     joinRoom(roomId, user){
-        const room = this.getRoom(roomId);
+        const room = this.getRoomById(roomId);
         room.addUser(user);
     }
 

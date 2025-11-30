@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import { createServer } from 'http'; 
 import { PORT } from './config/constants.js';
-import WebSocketHandler from './websocket/webSockerHandler.js';
+import WebSocketHandler from './websocket/webSocketHandler.js';
 
 const app = express();
 

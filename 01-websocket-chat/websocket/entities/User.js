@@ -5,9 +5,11 @@ export default class User{
     
     /**
      * @param {string} name 
+     * @param {WebSocket} client
      */
-    constructor(name){
+    constructor(name, client){
         this.id = uuid();
+        this.client = client;
         this.setName(name);
     }
 

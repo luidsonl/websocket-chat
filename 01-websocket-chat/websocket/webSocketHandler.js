@@ -1,6 +1,7 @@
 import RoomManager from "./managers/RoomManager.js";
 import UserManager from "./managers/UserManager.js";
 import { WebSocketServer } from "ws";
+import broadCastTooRoom from "./utils/broacdastToRoom.js";
 
 export default class WebSocketHandler{
 
@@ -17,16 +18,16 @@ export default class WebSocketHandler{
     }
     
     setup(){
-        this.handleJoiningRooms();
+        this.handleConnection();
     }
 
-    handleJoiningRooms(){
+    handleConnection(){
         this.wss.on('connection', (ws, request) => {
             const url = new URL(request.url, `http://${request.headers.host}`);
             let roomId = url.searchParams.get('room');
             const userName = url.searchParams.get('name');
 
-            const user = this.userManager.createUser(userName);
+            const user = this.userManager.createUser(userName, ws);
 
             if(!roomId){
                 roomId = 'main';
@@ -34,10 +35,12 @@ export default class WebSocketHandler{
 
             console.log(`${user.name} Connected to room ${roomId}`);
             this.roomManager.joinRoom(roomId, user);
+
+            broadCastTooRoom(this.roomManager.getRoomById(roomId), 'System', `${user.name} joined the room.`);
         });
     }
 
-    handl
+    
 
     
 }

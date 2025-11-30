@@ -2,19 +2,26 @@ import User from "../entities/User.js";
 
 
 export default class UserManager{
-    constructor(){
+    /**
+     * 
+     * @param {WebSocket} client 
+     */
+    constructor(client){
         /**
          * @type {Map<string, User>}
+         * 
          */
         this.users = new Map();
+        this.client = client;
     }
 
     /**
-     * @param {string} name 
+     * @param {string} name
+     * @param {WebSocket} client
      * @returns {User}
      */
-    createUser(name){
-        const user = new User(name);
+    createUser(name, client){
+        const user = new User(name, client);
         this.users.set(user.id, user);
         return user;
     }
@@ -35,6 +42,11 @@ export default class UserManager{
      * @param {string} userId 
      */
     removeUser(userId){
+        const user = this.getUser(userId);
+        if(!user){
+            return;
+        }
+        user.client.close();
         this.users.delete(userId);
     }
 }
