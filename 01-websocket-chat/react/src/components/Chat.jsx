@@ -16,14 +16,9 @@ export default function Chat() {
   };
   
   const formatMessage = (msg) => {
-    if (msg.startsWith('[Server]')) {
-      return { text: msg.replace('[Server]', 'Servidor:'), isServer: true };
-    }
-    if (msg.startsWith('[Broadcast]')) {
-        return { text: msg.replace('[Broadcast]', 'Novo usuário:'), isServer: false };
-    }
-
-    return { text: `Você: ${msg}`, isServer: false };
+    
+    console.log(msg);
+    return { text: `nha`, isServer: false };
   }
 
   return (
@@ -39,21 +34,13 @@ export default function Chat() {
         </p>
       </header>
 
-      <div style={{ height: 300, overflowY: 'auto', marginBottom: 20, border: '1px solid #ddd', padding: 10, backgroundColor: '#f9f9f9' }}>
-        {messages.map((rawMsg, index) => {
-          const formatted = formatMessage(rawMsg);
+      <div>
+        {messages.map((message, index) => {
           return (
             <div 
               key={index} 
-              style={{ 
-                marginBottom: 8, 
-                padding: 8, 
-                borderRadius: 4, 
-                backgroundColor: formatted.isServer ? '#ffe0b2' : '#e3f2fd', 
-                borderLeft: formatted.isServer ? '4px solid orange' : '4px solid blue'
-              }}
             >
-              {formatted.text}
+              {message.message}
             </div>
           );
         })}

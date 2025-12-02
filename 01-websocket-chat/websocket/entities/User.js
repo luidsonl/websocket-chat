@@ -26,14 +26,4 @@ export default class User{
         return;
     }
 
-    /**
-     * @param {Room} room 
-     */
-    setRoom(room){
-        this.roomId = room.id;
-    }
-
-    unsetRoom(){
-        this.roomId = null;
-    }
 }

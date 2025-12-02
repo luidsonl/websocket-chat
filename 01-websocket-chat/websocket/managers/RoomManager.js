@@ -1,4 +1,5 @@
 import Room from "../entities/Room.js";
+import User from "../entities/User.js";
 
 
 export default class RoomManager{
@@ -24,11 +25,21 @@ export default class RoomManager{
         return room;
     }
 
+    /**
+     * 
+     * @param {string} roomId 
+     * @param {User} user 
+     */
     joinRoom(roomId, user){
         const room = this.getRoomById(roomId);
         room.addUser(user);
     }
 
+    /**
+     * 
+     * @param {string} roomId 
+     * @param {User} user 
+     */
     leaveRoom(roomId, user){
         if(!this.rooms.has(roomId)){
             return;

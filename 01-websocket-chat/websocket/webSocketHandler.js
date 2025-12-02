@@ -1,7 +1,8 @@
 import RoomManager from "./managers/RoomManager.js";
 import UserManager from "./managers/UserManager.js";
 import { WebSocketServer } from "ws";
-import broadCastTooRoom from "./utils/broacdastToRoom.js";
+import { broadcastToRoom } from "./utils/broadcast.js";
+import User from "./entities/User.js";
 
 export default class WebSocketHandler{
 
@@ -37,11 +38,47 @@ export default class WebSocketHandler{
             }
             this.roomManager.joinRoom(roomId, user);
 
-            broadCastTooRoom(this.roomManager.getRoomById(roomId), 'System', `${user.name} joined the room.`);
+            this.initConnection(user, roomId);
+            this.setHandleMessage(user, roomId);
+            this.setHandleClose(user, roomId);
+
+        });
+        
+    }
+
+    /**
+     * 
+     * @param {User} user 
+     * @param {string} roomId 
+     */
+    initConnection(user, roomId){
+        broadcastToRoom(this.roomManager.getRoomById(roomId), user, `${user.name} joined the room.`);
+    }
+
+    /**
+     * 
+     * @param {string} roomId 
+     * @param {User} user 
+     */
+    setHandleMessage(user, roomId){
+        user.client.on('message', (data) => {
+            const message = data.toString();
+            broadcastToRoom(this.roomManager.getRoomById(roomId), user.name, message);
         });
     }
 
-    
+
+    /**
+     * 
+     * @param {string} roomId 
+     * @param {User} user 
+     */
+    setHandleClose(user, roomId){
+        user.client.on('close', () => {
+            this.roomManager.leaveRoom(roomId, user);
+            broadcastToRoom(this.roomManager.getRoomById(roomId), 'system', `${user.name} left the room.`);
+        });
+    }
 
     
 }

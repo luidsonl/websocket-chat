@@ -17,7 +17,6 @@ export default class Room{
      * @param {User} user 
      */
     addUser(user){
-        user.setRoom(this)
         this.users.push(user)
     }
 
@@ -26,9 +25,8 @@ export default class Room{
      * @returns {boolean} true if the user was removed, false otherwise
      */
     removeUser(user) {
-        const index = this.users.findIndex(u => u.id === user.id);
+        const index = this.users.findIndex(u => u.id == user.id);
         if (index !== -1) {
-            this.users[index].unsetRoom();
             this.users.splice(index, 1);
             return true;
         }

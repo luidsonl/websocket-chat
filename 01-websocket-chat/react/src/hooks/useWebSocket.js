@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useRef } from 'react';
-import { WS_URL } from '../config/constants.js';
+import { WS_URL } from '../../../config/constants.js';
 
 /**
  * @returns {{
@@ -12,6 +12,7 @@ import { WS_URL } from '../config/constants.js';
 export const useWebSocket = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [userName, setUserName] = useState('');
   
   const wsRef = useRef(null); 
 
@@ -21,15 +22,14 @@ export const useWebSocket = () => {
 
     socket.onopen = () => {
       setIsConnected(true);
-      socket.send('Client connected.');
     };
 
     socket.onmessage = (event) => {
-      setMessages(prevMessages => [event.data, ...prevMessages]); 
+      const data = JSON.parse(event.data);
+      setMessages(prevMessages => [data, ...prevMessages]); 
     };
 
     socket.onclose = () => {
-      console.log('Client desconnected from WebSocket');
       setIsConnected(false);
     };
 
