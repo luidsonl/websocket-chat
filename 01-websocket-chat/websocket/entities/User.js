@@ -22,7 +22,7 @@ export default class User{
             return;
         }
 
-        this.name = this.id;
+        this.name = this.id.slice(0, 5);
         return;
     }
 
