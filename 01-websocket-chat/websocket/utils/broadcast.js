@@ -55,7 +55,7 @@ export function broadCastSystemToRoom( message, room, blackList = [] ){
 
 /**
  * 
- * @param {user} User 
+ * @param {User} user 
  * @param {String} message 
  */
 export function broadcastSystemToUser( user, message ){
@@ -74,13 +74,15 @@ export function broadcastSystemToUser( user, message ){
 
 /**
  * 
- * @param {user} User 
+ * @param {User} user 
+ * @param {string} roomId
  */
-export function broadcastUserConnected( user ){
+export function broadcastUserConnected( user, roomId ){
     const data = {
         sender: 'System',
         type: 'setting',
         userName: user.name,
+        roomId: roomId,
         timestamp: new Date().toISOString()
     };
 

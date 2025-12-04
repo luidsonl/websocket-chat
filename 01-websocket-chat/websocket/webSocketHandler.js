@@ -53,7 +53,7 @@ export default class WebSocketHandler{
      */
     initConnection(user, roomId){
         broadCastSystemToRoom(`${user.name} joined the room.`, this.roomManager.getRoomById(roomId), [user]);
-        broadcastUserConnected(user);
+        broadcastUserConnected(user, roomId);
     }
 
     /**
