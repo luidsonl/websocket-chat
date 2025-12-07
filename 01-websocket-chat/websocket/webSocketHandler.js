@@ -3,6 +3,7 @@ import UserManager from "./managers/UserManager.js";
 import { WebSocketServer } from "ws";
 import { broadcastToRoom, broadCastSystemToRoom, broadcastUserConnected } from "./utils/broadcast.js";
 import User from "./entities/User.js";
+import { PING_INTERVAL } from "../config/constants.js";
 
 export default class WebSocketHandler {
 
@@ -42,6 +43,8 @@ export default class WebSocketHandler {
             this.setHandleMessage(user, roomId);
             this.setHandleClose(user, roomId);
             this.setHandleError(user, roomId);
+            this.setHandlePong(user);
+            this.setupHeartbeat(user, roomId);
 
         });
 
@@ -96,26 +99,64 @@ export default class WebSocketHandler {
     }
 
     /**
+     * Handle pong responses from client
+     * @param {User} user 
+     */
+    setHandlePong(user) {
+        user.client.on('pong', () => {
+            user.isAlive = true;
+        });
+    }
+
+    /**
+     * Setup heartbeat mechanism to detect dead connections
+     * @param {User} user 
+     * @param {string} roomId 
+     */
+    setupHeartbeat(user, roomId) {
+        user.isAlive = true;
+
+        const pingInterval = setInterval(() => {
+            if (user.isAlive === false) {
+                if (process.env.NODE_ENV === 'development') {
+                    console.log(`Connection timeout for user: ${user.name}`);
+                }
+                clearInterval(pingInterval);
+                this.cleanupUser(user, roomId);
+                return;
+            }
+
+            user.isAlive = false;
+            if (user.client.readyState === user.client.OPEN) {
+                user.client.ping();
+            }
+        }, PING_INTERVAL);
+
+        user.pingInterval = pingInterval;
+    }
+
+    /**
      * Cleanup user resources to prevent memory leaks
      * @param {User} user 
      * @param {string} roomId 
      */
     cleanupUser(user, roomId) {
-        // Remove from room
         this.roomManager.leaveRoom(roomId, user);
 
-        // Broadcast user left
         const room = this.roomManager.getRoomById(roomId);
         if (room) {
             broadCastSystemToRoom(`${user.name} left the room.`, room, [user]);
         }
 
-        // Remove all event listeners from the WebSocket client
+        if (user.pingInterval) {
+            clearInterval(user.pingInterval);
+            user.pingInterval = null;
+        }
+
         if (user.client) {
             user.client.removeAllListeners();
         }
 
-        // Remove from UserManager
         this.userManager.removeUser(user.id);
 
         if (process.env.NODE_ENV === 'development') {
