@@ -52,7 +52,7 @@ export default class WebSocketHandler{
      * @param {string} roomId 
      */
     initConnection(user, roomId){
-        broadCastSystemToRoom(`${user.name} joined the room.`, this.roomManager.getRoomById(roomId), [user]);
+        broadCastSystemToRoom(`${user.name} joined the room.`, this.roomManager.getRoomById(roomId));
         broadcastUserConnected(user, roomId);
     }
 
@@ -78,6 +78,10 @@ export default class WebSocketHandler{
         user.client.on('close', () => {
             this.roomManager.leaveRoom(roomId, user);
             broadCastSystemToRoom(`${user.name} left the room.`, this.roomManager.getRoomById(roomId), [user]);
+            
+            if(process.env.NODE_ENV === 'development'){
+                console.log(`Disconnected: ${user.name} from room ${roomId}`);
+            }
         });
     }
 
