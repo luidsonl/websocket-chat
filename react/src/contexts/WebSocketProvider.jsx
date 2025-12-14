@@ -48,7 +48,7 @@ export const WebSocketProvider = ({ children }) => {
             }
             
             if(data.type ==='message'){
-                setMessages(prev => [data, ...prev]);
+                setMessages(prev => [...prev, data]);
                 return;
             }
             

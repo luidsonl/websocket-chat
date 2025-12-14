@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  { useState , useRef, useEffect} from 'react';
 import { useWebSocket } from '../../hooks/useWebSocket';
 import './style.css';
 
@@ -13,6 +13,12 @@ export default function Chat() {
       setInput('');
     }
   };
+
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   return (
     <div className='chat-container'>
@@ -41,7 +47,7 @@ export default function Chat() {
         {messages.length === 0 && <p>Conectando...</p>}
       </div>
 
-      <form onSubmit={handleSubmit} className='input-container'>
+      <form onSubmit={handleSubmit} className='input-container' ref={bottomRef}>
         <input
           type="text"
           value={input}
