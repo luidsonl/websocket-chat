@@ -8,17 +8,18 @@ import UsersList from "../UsersList";
 export default function Main() {
     const { isConnected } = useWebSocket();
 
-    if (!isConnected) {
-        return <Register />;
-    }
-    return (
-        <section>
-            <UserInfo/>
-            <section>
-                <Chat />
-                <UsersList />
-            </section>
-            
+
+    return(
+        <section className="main-container">
+            {!isConnected && <Register />}
+            {isConnected &&(
+                <><UserInfo/>
+                <section>
+                    <Chat />
+                    <UsersList />
+                </section>
+                </>
+            )}
         </section>
-    );
+    )
 }

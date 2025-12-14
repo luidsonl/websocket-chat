@@ -1,0 +1,33 @@
+.register-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100dvh - (2 * var(--main-margin-size)));
+}
+.register-form-container h2 {
+    margin-bottom: 20px;
+}
+.register-form-container form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+.register-form-container fieldset {
+    border: none;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+.register-form-container label {
+    margin-bottom: 5px;
+}
+.register-form-container input {
+    padding: 8px;
+    font-size: 16px;
+}
+.register-form-container button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}

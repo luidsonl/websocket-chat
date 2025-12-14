@@ -94,6 +94,7 @@ export const WebSocketProvider = ({ children }) => {
       userName,
       room,
       connectToRoom,
+      disconnect,
       sendMessage
     }}>
       {children}

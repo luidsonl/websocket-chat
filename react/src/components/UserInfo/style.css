@@ -1,0 +1,20 @@
+.user-info{
+    padding: 10px;
+}
+.user-info .row{
+    display: flex
+}
+.user-info .col{
+    flex: 1;
+}
+
+.user-info .button-container{
+    display: flex;
+    justify-content: end;
+}
+.user-info .button-container .btn-logout{
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--color-danger);
+}

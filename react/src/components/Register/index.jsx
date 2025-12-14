@@ -1,4 +1,5 @@
 import { useWebSocket } from "../../hooks/useWebSocket";
+import './style.css';
 
 export default function Register() {
     const { connectToRoom } = useWebSocket();
@@ -12,7 +13,7 @@ export default function Register() {
 
 
     return (
-        <div>
+        <div className="register-form-container">
             <h2>Enter Room</h2>
             <form onSubmit={handleSubmit}>
                 <fieldset>

@@ -1,23 +1,43 @@
 import { useWebSocket } from "../../hooks/useWebSocket";
+import './style.css';
 
 export default function UserInfo() {
-    const { isConnected, userName, room } = useWebSocket();
+    const { isConnected, userName, room, disconnect } = useWebSocket();
+
+    const handleDisconnect = () => {
+        disconnect();
+    }
 
     return (
-        <header>
-            <div className={`status ${isConnected ? 'status-connected' : 'status-disconnected'}`}>
-                Status: {isConnected ? (
-                    <span className="success">CONECTADO</span>
-                    ) : (
-                    <span className="danger">DESCONECTADO</span>
-                    )}
+        <header className="user-info">
+            <div className="row">
+                <div className="col">
+                    <div className={`status ${isConnected ? 'status-connected' : 'status-disconnected'}`}>
+                        Status: {isConnected ? (
+                            <span className="success">CONECTADO</span>
+                            ) : (
+                            <span className="danger">DESCONECTADO</span>
+                            )}
+                    </div>
+                    <div className="user-name">
+                        Usuário: {userName}
+                    </div>
+                </div>
+                <div className="col">
+                    <div className="button-container">
+                        <button className="btn-logout" onClick={handleDisconnect}>
+                            Sair
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div className="user-name">
-                {userName}
+            
+            <div className="row">
+                <div className="room">
+                    <h1>Sala: {room}</h1>
+                </div>
             </div>
-            <div className="room">
-                Sala: {room}
-            </div>
+            
         </header>
     );
 }

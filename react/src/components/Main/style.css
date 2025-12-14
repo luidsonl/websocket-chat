@@ -7,6 +7,7 @@
     --color-info:      #0dcaf0;
     --color-light:     #f8f9fa;
     --color-dark:      #212529;
+    --main-margin-size: 10px;
 }
 
 .primary{
@@ -20,4 +21,11 @@
 }
 .danger{
     color: var(--color-danger);
+}
+
+body{
+    margin:0;
+}
+.main-container{
+    margin: var(--main-margin-size);
 }
