@@ -2,7 +2,7 @@ import { useWebSocket } from "../../hooks/useWebSocket";
 import './style.css';
 
 export default function Register() {
-    const { connectToRoom } = useWebSocket();
+    const { connectToRoom, loadingConnection } = useWebSocket();
     
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,7 +16,7 @@ export default function Register() {
         <div className="register-form-container">
             <h2>Enter Room</h2>
             <form onSubmit={handleSubmit}>
-                <fieldset>
+                <fieldset disabled={loadingConnection}>
                     <label>
                         Room ID:
                         <input 
@@ -36,7 +36,9 @@ export default function Register() {
                         />
                     </label>
                 </fieldset>
-                <button type="submit">Join</button>
+                <button type="submit" disabled={loadingConnection}>
+                    {loadingConnection ? "Joining..." : "Join"}
+                </button>
             </form>
         </div>
     );
