@@ -5,11 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"NODE_ENV=development nodemon index.js\" \"chokidar 'react/**/*' -c 'npm run build'\"",
-    "start": "NODE_ENV=production node index.js",
+    "dev": "concurrently \"NODE_ENV=development nodemon --exec 'node --env-file=.env' index.js\" \"chokidar 'react/**/*' -c 'npm run build'\"",
+    "start": "NODE_ENV=production node --env-file=.env index.js",
     "build": "vite build --config react/vite.config.js"
-  }
-  ,
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

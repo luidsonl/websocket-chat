@@ -1,5 +1,4 @@
-export const PORT = 3000;
-export const WS_URL = `ws://localhost:${PORT}`;
+export const PORT = process.env.PORT || 3000;
 
 // WebSocket heartbeat configuration
 export const PING_INTERVAL = 30000;  // Send ping every 30 seconds
